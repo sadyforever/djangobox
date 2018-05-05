@@ -16,11 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+import reqresp.urls
 import users.urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^users/', include('users.urls')), # users是前缀,完整的url是users/index
     url(r'^users/', include(users.urls)),   # include也可以这么写
-
+    url(r'^reqresp/', include(reqresp.urls)),
 ]
