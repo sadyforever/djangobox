@@ -14,5 +14,7 @@ def index(request):
     :param request:django框架视图函数结构必有request参数
     :return: 响应内容是由HttpResponse对象给出的
     '''
+    request.session['user_name'] = 100
+    request.session['user_id'] = 7
     print(reverse('index'))  # /users/index
     return HttpResponse('hello world')

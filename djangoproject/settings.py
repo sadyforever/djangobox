@@ -65,7 +65,7 @@ ROOT_URLCONF = 'djangoproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,6 +137,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static_files')
 ]  # BASE_DIR 定位的肯定是当前工程目录,os.path.join方法把静态文件目录加进去
 # 存放查找静态文件的目录
+
+# admin管理站点上传图片保存的文件夹
+MEDIA_ROOT=os.path.join(BASE_DIR,"static_files/media")
+
+
 
 
 # redis储存session的配置
