@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',       # users应用注册
     'reqresp.apps.ReqRespConfig',
-    'booktest.apps.BooktestConfig'
+    'booktest.apps.BooktestConfig',
+    'rest_framework',
 ]
 
 

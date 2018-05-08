@@ -1,11 +1,10 @@
 import json
-
 from django.shortcuts import render
 
 # Create your views here.
 from django.views import View
 
-from booktest.models import BookInfo
+from booktest.models import BookInfo, HeroInfo
 
 
 class IndexView(View):
@@ -59,6 +58,12 @@ class BooksAPIVIew(View):
                 'image': book.image.url if book.image else ''
             })
         return JsonResponse(book_list, safe=False)
+        # 对safe的说明,我们传过去的book_list是一个list格式
+        # 在前端json支持{}格式也支持[]格式
+        # 但是django中认为[]的json格式是不安全的会进行校验
+        # 所以把safe选项关闭False,不进行校验就可以传[]
+
+
 
     def post(self, request):
         """
@@ -75,6 +80,8 @@ class BooksAPIVIew(View):
             btitle=book_dict.get('btitle'),
             bpub_date=datetime.strptime(book_dict.get('bpub_date'), '%Y-%m-%d').date()
         )
+            # 使用datetime模块中的strptime方法,把时间 '1990-1-1' 格式的字符串转换成
+
 
         return JsonResponse({
             'id': book.id,
@@ -148,3 +155,19 @@ class BookAPIView(View):
         book.delete()
 
         return HttpResponse(status=204)
+
+
+
+
+from rest_framework.viewsets import ModelViewSet
+from .serializers import BookInfoSerializer, HeroInfoSerializer
+from .models import BookInfo
+                        # ModelViewSet
+class BookInfoViewSet(ModelViewSet):    # 继承于模型视图集合
+    queryset = BookInfo.objects.all()      # 操作数据库由我们来
+    serializer_class = BookInfoSerializer   # serializer_class 声明接下来的序列化使用哪个序列化器
+
+
+class HeroInfoViewSet(ModelViewSet):    # 使用默认的serializer居然也继承这个
+    queryset = HeroInfo.objects.all()
+    serializer_class = HeroInfoSerializer
