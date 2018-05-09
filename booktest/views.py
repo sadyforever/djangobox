@@ -162,12 +162,17 @@ class BookAPIView(View):
 from rest_framework.viewsets import ModelViewSet
 from .serializers import BookInfoSerializer, HeroInfoSerializer
 from .models import BookInfo
+
+
+class HeroInfoViewSet(ModelViewSet):    # 使用默认的serializer居然也继承这个
+    queryset = HeroInfo.objects.all()
+    serializer_class = HeroInfoSerializer
+
+
+
                         # ModelViewSet
 class BookInfoViewSet(ModelViewSet):    # 继承于模型视图集合
     queryset = BookInfo.objects.all()      # 操作数据库由我们来
     serializer_class = BookInfoSerializer   # serializer_class 声明接下来的序列化使用哪个序列化器
 
 
-class HeroInfoViewSet(ModelViewSet):    # 使用默认的serializer居然也继承这个
-    queryset = HeroInfo.objects.all()
-    serializer_class = HeroInfoSerializer

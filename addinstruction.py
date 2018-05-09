@@ -207,5 +207,32 @@ serializer = CommentSerializer(comment, data={'content': u'foo bar'}, partial=Tr
 '''
 7.子类 ModelSerializer
 
+class BookInfoSerializer(serializers.ModelSerializer):
+    """图书数据序列化器"""
+    class Meta:
+        model = BookInfo        # 依据的模型类
+        fields = '__all__'      # 所有字段
 
+可以验证(shell): serializer = BookInfoSerializer()
+            >>> serializer  可以看到结构
+
+7-1.指定字段
+(1) 指定 fields = ('id', 'btitle', 'bpub_date')
+(2) 排除 exclude = ('image',)  注意是元组
+(3) 指明只读字段 read_only_fields = ('id', 'bread', 'bcomment') 即只在序列化输出时使用
+
+7-2.嵌套关系字段  depth
+默认生成的hbook = PrimaryKeyRelatedField(label='图书', queryset=BookInfo.objects.all())就是个外键,并且以id来关联
+嵌套的层级和详细信息   depth = 1
+    hbook = NestedSerializer(read_only=True): 并且有所属书籍的详细信息
+
+7-3.添加或修改原有参数
+extra_kwargs = {
+            'bread': {'min_value': 0, 'required': True}},
+            'bcomment': {'min_value': 0, 'required': True}},
+        }
+
+修改了默认生成的序列化器中字段的参数
+bread = IntegerField(label='阅读量', max_value=2147483647, min_value=0, required=True)
+bcomment = IntegerField(label='评论量', max_value=2147483647, min_value=0, required=True)
 '''
